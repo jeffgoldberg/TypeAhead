@@ -1,4 +1,14 @@
-	<html>
+
+
+
+
+
+<html>
+<!--  index.php              ***Same as favrest.html***
+      Jeff Goldberg
+      Type Ahead function          -->
+
+
  	<head>
  	<title>My Favorite Restaurants</br></br></title>
  	</head>
@@ -8,27 +18,27 @@
 
 	<script>
 	
-	//Get input on keyup to get entry characters
+	//Get input on keyup to get entry characters - AJAX
 	
 	$(document).ready(function(){
-		var returndata = [];	
+		var returndata = [];  //clear return data in preparation for backspace character delete to null entry (edge case)	
 		$( "#rest" ).keyup(function(){
 		
 			var $table = $( "<table id='tab' name='tab'></table>" );
 			var searchterm2=document.getElementById("rest").value;
 
+//          Callback to database to match characters entered
 			$.ajax({
 				type: "POST",
-				url: '/gofundme/db.php',
+				url: './db.php',
 				data: ({searchterm: searchterm2}),
-				success: function(data){			
-
-				
+				success: function(data){           //upon return from callback process data			
+				        
 					var names = data.split(",");//create array from comma sep list
 					var i=0;
 					var len = names.length;
 
-					var half = (len/2);//first half is rest names other half is cuisines
+					var half = (len/2);  //first half is restaurant names, second half is cuisines Split & display as pairs
 					$('#myDiv').html('');
 					var $table = $( "<table></table>" );
 					var $line = $( "<tr></tr>" );
@@ -38,9 +48,9 @@
 					$table.append( $line );
 					for ( i =0; i < half; i++) {
 
-						var nam = names[i];
+						var nam = names[i];   
 						var split = i + half;
-						var cui = names[split];
+						var cui = names[split];    //split allows to index to the (i)th cui
 						var $line = $( "<tr></tr>" );
 						
 						
@@ -70,7 +80,7 @@
 
 </script>
 	<center><h1 style="color:blue">Favorite Restaurants</h1></center><br />
- 	<h2 style="color:green">Find your favorite:</h2> <h5 style="color:green">key below</h5><input type="text" id="rest" placeholder="Enter Rest. Name or Cuisine" style=color:blue></BR></BR></BR> 
+ 	<h2 style="color:green">Find your favorite:</h2> <h4 style="color:green">Enter Name or Cuisine</h4></br><input type="text" id="rest" placeholder="Enter Rest. Name or Cuisine" style=color:blue></BR></BR></BR> 
    
 	<div id="myDiv"><div>
 
@@ -80,6 +90,8 @@
 
 </body>
 </html>
+
+
 
 
  

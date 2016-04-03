@@ -1,14 +1,16 @@
 <?php
  	  
-    //	db.php   Database access
+    //	db.php   Database access module
 
 	
     $searchterm2 = $_POST['searchterm'];
 
-    require_once('/var/www/restaurants.config.php');
+    require_once('/var/www/restaurants.config.php');    //database configuration protected from web up one dir level
 
+    // Distinct not required for this solution one-to-one. Helpful for one-to-many or many-to-one
     $query = "SELECT DISTINCT restaurant_name, cuisine_type  FROM favorite_restaurants WHERE restaurant_name LIKE '".$searchterm2."%' OR cuisine_type LIKE '".$searchterm2."%'ORDER BY restaurant_name ASC";
 
+//no entry will return no data, clearing screen area
     if ($searchterm2 > "") {
         $results = query_db($query);
     }
@@ -25,7 +27,7 @@
 	$rests = implode(",", $rests);
 	$cuis = implode(",", $cuis);
 
-       //return two lists connected by comma
+       //return two lists connected by comma creating one comma separated list
 
         print_r($rests);
         echo ",";
@@ -42,7 +44,6 @@
     if (!$link) {
         echo "Error: Unable to connect to MySQL." . PHP_EOL;
         echo "Debugging error: " . mysqli_connect_errno() . PHP_EOL;
-        echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
         exit;
     }
 
